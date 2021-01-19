@@ -14,7 +14,7 @@ unsigned char lfsr(unsigned char tap_seq, unsigned char seed){
     unsigned char b = 0;
     unsigned char next = seed >> 1;   
     
-    if(tap_seq > 0x08) tap_seq = tap_seq & 0x03;
+    if(tap_seq > 0x08) tap_seq = tap_seq & 0x07;
 
     if(tap_seq == 0x00) b = getBit(seed, 6) ^ getBit(seed,5);
     else if(tap_seq == 0x01) b = getBit(seed, 6) ^ getBit(seed, 3);
@@ -48,27 +48,27 @@ char * encrypter(char * mem){
     count = mem[61];
    
     // step 3
-    unsigned char next;
+    unsigned char next = mem[62];
 
     if(count < 10) count = 10;
     else if(count > 26) count = 26;
    
     // step 4
     for(i = 0; i < count; i++){
-        next = lfsr(mem[62], mem[63]);
+        next = lfsr(next, mem[63]);
         mem[64 + i] = 0x20 ^ next;
     }
 
     // step 5
     for(i = 64 + count; i < 128; i++){
-        next = lfsr(mem[62], next);
+        next = lfsr(next, next);
         mem[i] = next ^ mem[ i - (64 + count)] - 0x20;
     }    
     
     //step 6
     for(i = 64 + count; i< 128; i++){
         b = mem[i];
-        b = setBit(b, 7,  getBit(b,0)^getBit(b,1)^getBit(b,2)^getBit(b,3)^
+        mem[i] = setBit(b, 7,  getBit(b,0)^getBit(b,1)^getBit(b,2)^getBit(b,3)^
             getBit(b,4)^getBit(b,5)^getBit(b,6));
     }
 
@@ -81,8 +81,3 @@ int main()
     char * mem = "ABCDEFG";
     encrypter(mem);
 }
-
-
-
-
-
