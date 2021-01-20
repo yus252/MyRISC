@@ -48,21 +48,22 @@ char * encrypter(char * mem){
     count = mem[61];
    
     // step 3
-    unsigned char next = mem[62];
+    unsigned char tap = mem[62];
+    unsigned char state = mem[63];
 
     if(count < 10) count = 10;
     else if(count > 26) count = 26;
    
     // step 4
     for(i = 0; i < count; i++){
-        next = lfsr(next, mem[63]);
-        mem[64 + i] = 0x20 ^ next;
+        state = lfsr(tap, state);
+        mem[64 + i] = 0x20 ^ state;
     }
 
     // step 5
     for(i = 64 + count; i < 128; i++){
-        next = lfsr(next, next);
-        mem[i] = next ^ mem[ i - (64 + count)] - 0x20;
+        state = lfsr(tap, state);
+        mem[i] = state ^ mem[ i - (64 + count)] - 0x20;
     }    
     
     //step 6
@@ -78,6 +79,6 @@ char * encrypter(char * mem){
 
 int main()
 {
-    char * mem = "ABCDEFG";
+    char * mem = 0xffffffff;
     encrypter(mem);
 }
