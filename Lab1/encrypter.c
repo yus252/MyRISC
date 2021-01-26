@@ -63,7 +63,7 @@ char * encrypter(char * mem){
     // step 5
     for(i = 64 + count; i < 128; i++){
         state = lfsr(tap, state);
-        mem[i] = state ^ mem[ i - (64 + count)] - 0x20;
+        mem[i] = state ^ mem[ i - (64 + count)];
     }    
     
     //step 6
