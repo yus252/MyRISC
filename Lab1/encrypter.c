@@ -10,10 +10,10 @@ unsigned char setBit(unsigned char n, unsigned int p, unsigned int b)
     return (n & ~mask) | ((b << p) & mask); 
 }
 
-unsigned char lfsr_next(unsigned char tap, unsigned char seed){
-    seed = seed >> 1;   
-    setBit(next, 0, (unsigned int) tap);
-    return seed;
+unsigned char lfsr(unsigned char tap, unsigned char state){
+    state = state << 1;   
+    setBit(state, 0, (unsigned int) tap);
+    return state;
 }
 
 char * encrypter(char * mem){
@@ -35,24 +35,24 @@ char * encrypter(char * mem){
 
    if(tap > 0x08) tap = tap & 0x07;
 
-    if(tap == 0x00) tap = getBit(seed, 6) ^ getBit(seed,5);
-    else if(tap == 0x01) tap = getBit(seed, 6) ^ getBit(seed, 3);
-    else if(tap == 0x02) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3);
-    else if(tap == 0x03) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 1); 
-    else if(tap == 0x04) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 1); 
-    else if(tap == 0x05) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 0); 
-    else if(tap == 0x06) tap = getBit(seed, 6) ^ getBit(seed, 4) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 2); 
-    else if(tap == 0x07) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3) ^
-                                 getBit(seed, 2) ^ getBit(seed, 1); 
-    else if(tap == 0x08) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3) ^
-                                 getBit(seed, 1) ^ getBit(seed, 0);  
+    if(tap == 0x00) tap = getBit(state, 6) ^ getBit(state,5);
+    else if(tap == 0x01) tap = getBit(state, 6) ^ getBit(state, 3);
+    else if(tap == 0x02) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 4) ^ getBit(state, 3);
+    else if(tap == 0x03) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 4) ^ getBit(state, 1); 
+    else if(tap == 0x04) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 3) ^ getBit(state, 1); 
+    else if(tap == 0x05) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 3) ^ getBit(state, 0); 
+    else if(tap == 0x06) tap = getBit(state, 6) ^ getBit(state, 4) ^ 
+                                 getBit(state, 3) ^ getBit(state, 2); 
+    else if(tap == 0x07) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 4) ^ getBit(state, 3) ^
+                                 getBit(state, 2) ^ getBit(state, 1); 
+    else if(tap == 0x08) tap = getBit(state, 6) ^ getBit(state, 5) ^ 
+                                 getBit(state, 4) ^ getBit(state, 3) ^
+                                 getBit(state, 1) ^ getBit(state, 0);  
 
     // step 4
     for(i = 0; i < count; i++){
@@ -79,6 +79,6 @@ char * encrypter(char * mem){
 
 int main()
 {
-    char * mem = 0xffffffff;
+    char * mem = "ABCDEFG";
     encrypter(mem);
 }

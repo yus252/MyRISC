@@ -1,32 +1,9 @@
 #include <stdio.h>
 
 // reused from encrypter.c
-unsigned char lfsr(unsigned char tap_seq, unsigned char seed){
-    unsigned char b = 0;
-    unsigned char next = seed >> 1;   
-    
-    if(tap_seq > 0x08) tap_seq = tap_seq & 0x07;
-
-    if(tap_seq == 0x00) b = getBit(seed, 6) ^ getBit(seed,5);
-    else if(tap_seq == 0x01) b = getBit(seed, 6) ^ getBit(seed, 3);
-    else if(tap_seq == 0x02) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3);
-    else if(tap_seq == 0x03) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 1); 
-    else if(tap_seq == 0x04) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 1); 
-    else if(tap_seq == 0x05) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 0); 
-    else if(tap_seq == 0x06) b = getBit(seed, 6) ^ getBit(seed, 4) ^ 
-                                 getBit(seed, 3) ^ getBit(seed, 2); 
-    else if(tap_seq == 0x07) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3) ^
-                                 getBit(seed, 2) ^ getBit(seed, 1); 
-    else if(tap_seq == 0x08) b = getBit(seed, 6) ^ getBit(seed, 5) ^ 
-                                 getBit(seed, 4) ^ getBit(seed, 3) ^
-                                 getBit(seed, 1) ^ getBit(seed, 0); 
-    
-    setBit(next, 0, (unsigned int) b);
+unsigned char lfsr(unsigned char tap, unsigned char seed){
+    unsigned char next = seed << 1;    
+    setBit(next, 0, (unsigned int) tap);
     return next;
 }
 
@@ -40,13 +17,33 @@ char * decryptor(char * mem){
 	unsigned char tap = 0x00;  // default tap sequence
 	unsigned char seed = 0x01; // default starting state
 	unsigned char state = seed;   
-	
+	    
+    if(tap > 0x08) tap = tap & 0x07;
+
+    if(tap == 0x00) tap = getBit(seed, 6) ^ getBit(seed,5);
+    else if(tap == 0x01) tap = getBit(seed, 6) ^ getBit(seed, 3);
+    else if(tap == 0x02) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 4) ^ getBit(seed, 3);
+    else if(tap == 0x03) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 4) ^ getBit(seed, 1); 
+    else if(tap == 0x04) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 3) ^ getBit(seed, 1); 
+    else if(tap == 0x05) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 3) ^ getBit(seed, 0); 
+    else if(tap == 0x06) tap = getBit(seed, 6) ^ getBit(seed, 4) ^ 
+                                 getBit(seed, 3) ^ getBit(seed, 2); 
+    else if(tap == 0x07) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 4) ^ getBit(seed, 3) ^
+                                 getBit(seed, 2) ^ getBit(seed, 1); 
+    else if(tap == 0x08) tap = getBit(seed, 6) ^ getBit(seed, 5) ^ 
+                                 getBit(seed, 4) ^ getBit(seed, 3) ^
+                                 getBit(seed, 1) ^ getBit(seed, 0); 
 	int count = 0;
 	// find a seed that decrypts 10 space chars 
 	while(count < 10){
 		state = lfsr(tap, state);
 		// advance if a space char was decrypted
-		if(mem[64+count] ^ state == 0x20){
+		if((mem[64+count] ^ state) == 0x20){
 			count++;
 		}
 		// otherwise, start over with a new seed
