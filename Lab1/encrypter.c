@@ -68,7 +68,7 @@ char * encrypter(char * mem){
     }    
 
     //step 6
-    for(i = 64 + count; i< 128; i++){
+    for(i = 64; i< 128; i++){
         b = mem[i];
         mem[i] = setBit(b, 7,  getBit(b,0)^getBit(b,1)^getBit(b,2)^getBit(b,3)^
                 getBit(b,4)^getBit(b,5)^getBit(b,6));
