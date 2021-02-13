@@ -71,13 +71,8 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	// reg file
 	assign WriteReg = MUXWrite == 0 ? 0 : Instruction[3:0]; // if MUXWrite = 0, write into r0. Else write into rs. 
 	
-	always@* begin
-		if(MemToReg == 1) RegWriteValue = MemReadValue;
-		else RegWriteValue = ALU_out;
-		
-		if(Lookup == 1) RegWriteValue = LUTOut;
-		// if memtoreg == 1 and lookup == 1, something went wrong
-	end
+	assign RegWriteValue = MemToReg == 1 ? MemReadValue : (Lookup == 1 ? LUTOut : ALU_out);
+
 	RegFile #(.W(8),.D(3)) RF1 (
 		.Clk    				  ,
 		.WriteEn   (RegWrite)    ,
