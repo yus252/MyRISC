@@ -26,8 +26,8 @@ module ALU(
     Out = 0;                           // No Op = default
     if(OP[4] == 0) begin
 		case(ROP)
-		  kMV: Out = InputB; 
-		  kAS: Out = InputA; 
+		  kMV: Out = InputA; 
+		  kAS: Out = InputB; 
         kADD: Out = InputA + InputB; 
 		  kSUB: Out = InputA - InputB; 
 		  kB: Out = 0; // Don't care

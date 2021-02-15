@@ -18,7 +18,7 @@ end
 
 initial begin
 	
-	/** Addition **/
+	/** Add **/
 	
 	// zeroes
 	#20ns InputA = 8'b0;
@@ -27,24 +27,33 @@ initial begin
 	
 	// identity
 	#20ns InputA = 8'b1;
-	
-	// small add
-	#20ns InputA = 8'd2;	
-		  InputB = 8'd3;  
-	
-	// large add
+		
+	// simple add
 	#20ns InputA = 8'd69;	
 		  InputB = 8'd42; 
 	
-	// negative + positive 
+	// negative 
 	#20ns InputA = 8'b1111_1111;	
-		  InputB = 8'd3; 
+		  InputB = 8'd5; 
 	
-	// negative + negative 
-	#20ns InputA = 8'b1111_1011;	
-		  InputB = 8'b1111_1101; 		  
+	/** Mv **/
+
+	// out should be 1 (A)
+	#20ns InputA = 8'd1;
+	      InputB = 8'd2;
+		  OP = 5'b0;
+		  
+	/** As **/
+
+	// out should be 2
+	#20ns InputA = 8'd1;
+	      InputB = 8'd2;
+		  OP = 5'b1;
 	
-	#240ns $stop;
+	
+	#60ns $stop;
+	
+	
 	
 end
 
