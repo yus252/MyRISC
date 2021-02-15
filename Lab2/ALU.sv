@@ -37,9 +37,9 @@ module ALU(
 		  kSW: Out = InputA;
 		  kXOR: Out = InputA ^ InputB;
 		  kAND: Out = InputA & InputB;
-		  kXALL: Out = ^InputA;
+		  kXALL: Out = ^InputB;
 		  kLUT: Out = InputB;
-        kSLL: Out = (InputA << 1) | InputB; 
+        kSLL: Out = (InputA << 1) | InputB; // InputB always 1'b 
 		  kSTOP: Out = 0; // Don't care 
       endcase
 	 end
