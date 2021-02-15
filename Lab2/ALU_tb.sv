@@ -49,7 +49,42 @@ initial begin
 	#20ns InputA = 8'd1;
 	      InputB = 8'd2;
 		  OP = 5'b1;
+		  
+	/** XOR **/ 
 	
+	// output should be 10101010
+	#20ns InputA = 8'b0101_0101;
+	      InputB = 8'b1111_1111;
+		  OP = 5'b01001;
+		  
+	/** AND **/ 
+	
+	// output should be 0000 0101
+	#20ns InputA = 8'b0101_0101;
+	      InputB = 8'b0000_1111;
+		  OP = 5'b01010;
+		  
+	/** XALL **/ 
+	
+	// output should be 0
+	#20ns InputB = 8'b0000_1111;
+		  OP = 5'b01011;
+	
+	// output should be 1
+	#20ns InputB = 8'b0111_1111;
+	
+	
+	/** sll **/ 
+	
+	// output should be 1010 1011
+	#20ns InputA = 8'b0101_0101;
+	      InputB = 8'b1;
+		  OP = 5'b01101;
+		  
+	// output should be 1010 1010
+    #20ns InputA = 8'b0101_0101;
+		  InputB = 8'b0;
+		  
 	
 	#60ns $stop;
 	
