@@ -104,7 +104,7 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 
    assign MemWriteValue = ReadB;
 	DataMem DM1(
-		.DataAddress  (ReadA)    , 
+		.DataAddress  (ALU_Out)    , 
 		.WriteEn      (MemWrite), 
 		.DataIn       (MemWriteValue), 
 		.DataOut      (MemReadValue)  , 
