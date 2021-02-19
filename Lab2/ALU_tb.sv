@@ -88,17 +88,19 @@ initial begin
 	/** gbi, sb0, sb1 **/
 	
 	// gbi, output should be 1
+	$display("%s", "GBIT");
 	#20ns InputA = 8'b101;
-	      InputB = 8'd0;
-		  OP = 5'b10001;
+	      InputB = 8'b0;
+		   OP = 5'b10010;
 	#20ns InputB = 8'd1;
 	#20ns InputB = 8'd2;
+
 	
 	
 	// sb0, output should be 1111_1110
 	#20ns InputA = 8'b1111_1111;
 	      InputB = 8'd0;
-		  OP = 5'b10010;
+		   OP = 5'b10100;
 	// output should be 0111_1111
 	#20ns InputB = 8'd7;
 	// output should be 1111_0111 
@@ -108,7 +110,7 @@ initial begin
 	// sb1, output should be 0000_0001
 	#20ns InputA = 8'b0;
 	      InputB = 8'd0;
-		  OP = 5'b10011;
+		  OP = 5'b10110;
 	// output should be 1000_0000
 	#20ns InputB = 8'd7;
 	// output should be 0000_1000 

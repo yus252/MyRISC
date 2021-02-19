@@ -46,9 +46,15 @@ module ALU(
 	 else begin
 		case(IOP)
 		  kLI: Out = InputB;
-		  kGBI: Out = (InputA & (1 << InputB)) >> InputA;
-		  kSB0: Out = (InputA & ~(1 << InputB)) | (0 & (1 << InputB));
-		  kSB1: Out = (InputA & ~(1 << InputB)) | ((1 << InputB) & (1 << InputB));
+		  kGBI: Out = {7'b0000000, InputA[InputB]};
+		  kSB0: begin
+			 Out = InputA;
+			 Out[InputB] = 0;
+		  end
+		  kSB1: begin
+			 Out = InputA;
+			 Out[InputB] = 1;
+		  end
 		  kSUBI: Out = InputA - InputB;
 		  kLUTI: Out = InputB;
 		endcase  
