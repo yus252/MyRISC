@@ -5,28 +5,28 @@
 // partial only										   
 module TopLevel(		   // you will have the same 3 ports
     input        Reset,	   // init/reset, active high
-			        Start,    // start next program
-	              Clk,	   // clock -- posedge used inside design
+			     Start,    // start next program
+	             Clk,	   // clock -- posedge used inside design
     output logic Ack	   // done flag from DUT
     );
 
 wire [ 9:0] PgmCtr,        // program counter
-			   PCTarg;
+			PCTarg;
 wire [ 8:0] Instruction;   // our 9-bit opcode
 wire [ 7:0] ReadA, ReadB;  // reg_file outputs
 wire [ 7:0] InA, InB, 	   // ALU operand inputs
             ALU_out;       // ALU result
 wire [ 7:0] RegWriteValue, // data in to reg file
             MemWriteValue, // data in to data_memory
-	   	   MemReadValue;  // data out from data_memory
+	   	    MemReadValue;  // data out from data_memory
 wire        Stop,
-	         Lookup,
-				RegWrite,
-				MemWrite,
+	        Lookup,
+			RegWrite,
+			MemWrite,
             MemToReg,
             MUXWrite, // 0 means r0, 1 means rs
-			   MUXImm,
-				MUXLookup;
+			MUXImm,
+			MUXLookup;
 wire[31:0]  LUTIndex;
 wire        LUTOut;
 
@@ -43,7 +43,7 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.BranchLT	 (Instruction[8:4] == 5'b00110),
 		.BranchEQ 	 (Instruction[8:4] == 5'b00111),  
 		.LT	 		 (LT),
-		.EQ	 	    (EQ),
+		.EQ	 	     (EQ),
 		.Target      (PCTarg  ),
 		.ProgCtr     (PgmCtr  )	   // program count = index to instruction memory
 	);					  
@@ -84,9 +84,9 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.DataOutB  (ReadB		 )
 	);
 
-   assign InA = ReadA;						          // connect RF out to ALU in
+	assign InA = ReadA;						          // connect RF out to ALU in
 	assign InB = MUXImm == 0 ? ReadB : {3'b000, Instruction[4:0]};
-   ALU ALU1(
+    ALU ALU1(
 	  .InputA  (InA),
 	  .InputB  (InB), 
 	  .OP      (Instruction[8:4]),
@@ -98,11 +98,11 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	
 	assign LUTIndex = MUXLookup == 0 ? ReadB : Instruction[4:0]; // readb(rs) or imm
 	LUT LUT1(
-     .Addr (LUTIndex),
+      .Addr (LUTIndex),
 	  .Target(LUTOut)
 	);
 
-   assign MemWriteValue = ReadB;
+    assign MemWriteValue = ReadB;
 	DataMem DM1(
 		.DataAddress  (ALU_Out)    , 
 		.WriteEn      (MemWrite), 
