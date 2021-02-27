@@ -20,6 +20,7 @@ wire [ 7:0] InA, InB, 	   // ALU operand inputs
 wire [ 7:0] RegWriteValue, // data in to reg file
             MemWriteValue, // data in to data_memory
 	   	    MemReadValue;  // data out from data_memory
+wire [ 3:0] WriteReg;		// destination register for RegWrite
 wire        Stop,
 	        Lookup,
 			RegWrite,
@@ -28,8 +29,8 @@ wire        Stop,
             MUXWrite, // 0 means r0, 1 means rs
 			MUXImm,
 			MUXLookup;
-wire[31:0]  LUTIndex;
-wire        LUTOut;
+wire[4:0]   LUTIndex;
+wire[9:0]   LUTOut;
 
 logic[15:0] CycleCt;	   // standalone; NOT PC!
 
@@ -58,7 +59,8 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.MemWrite    (MemWrite),
 		.MemToReg    (MemToReg),
 		.MUXWrite    (MUXWrite), // 0 means r0, 1 means rs
-		.MUXImm      (MUXImm)
+		.MUXImm      (MUXImm),
+		.MUXLookup   (MUXLookup)
 	);
   
 /*	// instruction ROM   (TODO: commented out for unit testing)
@@ -70,14 +72,14 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	assign Ack = &Instruction;
   
 	// reg file
-	assign WriteReg = MUXWrite == 0 ? 0 : Instruction[3:0]; // if MUXWrite = 0, write into r0. Else write into rs. 
+	assign WriteReg = MUXWrite == 0 ? 4'b0 : Instruction[3:0]; // if MUXWrite = 0, write into r0. Else write into rs. 
 	
-	assign RegWriteValue = MemToReg == 1 ? MemReadValue : (Lookup == 1 ? LUTOut : ALU_out);
+	assign RegWriteValue = MemToReg == 1 ? MemReadValue : (Lookup == 1 ? LUTOut[7:0] : ALU_out);
 
-	RegFile #(.W(8),.D(3)) RF1 (
+	RegFile #(.W(8),.D(4)) RF1 (
 		.Clk    				  ,
 		.WriteEn   (RegWrite)    ,
-		.RaddrA    (0),         //r0
+		.RaddrA    (4'b0),         //r0
 		.RaddrB    (Instruction[3:0]), // rs
 		.Waddr     (WriteReg), 	       // mux above
 		.DataIn    (RegWriteValue) , 
@@ -97,7 +99,7 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	  );
 	
 	
-	assign LUTIndex = MUXLookup == 0 ? ReadB : Instruction[4:0]; // readb(rs) or imm
+	assign LUTIndex = MUXLookup == 0 ? ReadB[4:0] : Instruction[4:0]; // readb(rs) or imm
 	LUT LUT1(
       .Addr (LUTIndex),
 	  .Target(LUTOut)
@@ -105,7 +107,7 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 
     assign MemWriteValue = ReadB;
 	DataMem DM1(
-		.DataAddress  (ALU_Out)    , 
+		.DataAddress  (ALU_out)    , 
 		.WriteEn      (MemWrite), 
 		.DataIn       (MemWriteValue), 
 		.DataOut      (MemReadValue)  , 
