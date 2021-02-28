@@ -57,6 +57,7 @@ module ALU(
 		  end
 		  kSUBI: Out = InputA - InputB;
 		  kLUTI: Out = InputB;
+		  kADDI: Out = InputA + InputB;
 		endcase  
     end
   end
