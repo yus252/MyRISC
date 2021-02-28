@@ -20,8 +20,8 @@ always_comb
 	5'b00111: Target = 10'b0001111011; // [6,5,4,3,1,0] => 1111011
 	5'b01000: Target = 10'b0000100000; // 0x20 (space char)
 	5'b01001: Target = 10'b0000111101; // 61
-	5'b01011: Target = 10'b0001111111; // 127
-	5'b01100: Target = 10'b0001000000; // 64
+	5'b01010: Target = 10'b0001111111; // 127
+	5'b01011: Target = 10'b0001000000; // 64
 	
 	// Need to add branch address
 	default: Target = 10'h001; 
