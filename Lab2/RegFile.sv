@@ -15,7 +15,8 @@ module RegFile #(parameter W=8, D=4)(		  // W = data path width; D = pointer wid
                        Waddr,
   input        [W-1:0] DataIn,
   output       [W-1:0] DataOutA,			  // showing two different ways to handle DataOutX, for
-  output logic [W-1:0] DataOutB				  //   pedagogic reasons only
+  output logic [W-1:0] DataOutB,				  //   pedagogic reasons only
+  output logic [W-1:0] ParamR1
     );
 
 // W bits wide [W-1:0] and 2**4 registers deep 	 
@@ -28,6 +29,7 @@ logic [W-1:0] Registers[2**D];	  // or just registers[16] if we know D=4 always
 */
 assign      DataOutA = Registers[RaddrA];	  // can't read from addr 0, just like MIPS
 always_comb DataOutB = Registers[RaddrB];    // can read from addr 0, just like ARM
+assign      ParamR1  = Registers[4'b1]; // messy, but it works! 
 
 // sequential (clocked) writes 
 always_ff @ (posedge Clk)

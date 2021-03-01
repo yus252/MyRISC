@@ -12,7 +12,8 @@ module Ctrl (
                MemToReg,
                MUXWrite, // 0 means r0, 1 means rs  // mv r3  r3 = r0  // as r3 r0 = r3 r0
 					MUXImm, // 0 means not i type, 1 mean use imm
-					MUXLookup
+					MUXLookup,
+					MUXParamR1
   );
   logic[3:0] ROP;
   logic[3:0] IOP;
@@ -23,6 +24,12 @@ module Ctrl (
     IOP[3] = 0;
   
     if(Instruction[8] == 0) begin
+		// these cases use r1 as an extra parameter
+		if(ROP == kXOR || ROP == kAND || ROP == kBLT || ROP == kBEQ)
+			MUXParamR1 = 1;
+		else
+			MUXParamR1 = 0;
+			
 		if(ROP == kMV || ROP == kADD || ROP == kSUB || ROP == kXOR ||
 	    	ROP == kAND || ROP == kXALL || ROP == kSLL) begin
 		  Stop = 0;

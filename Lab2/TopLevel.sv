@@ -14,7 +14,7 @@ module TopLevel(		   // you will have the same 3 ports
 wire [ 9:0] PgmCtr,        // program counter
 			PCTarg;
 //wire [ 8:0] Instruction;   // our 9-bit opcode (TODO: commented out for unit testing)
-wire [ 7:0] ReadA, ReadB;  // reg_file outputs
+wire [ 7:0] ReadA, ReadB, ParamR1;  // reg_file outputs
 wire [ 7:0] InA, InB, 	   // ALU operand inputs
             ALU_out;       // ALU result
 wire [ 7:0] RegWriteValue, // data in to reg file
@@ -28,7 +28,8 @@ wire        Stop,
             MemToReg,
             MUXWrite, // 0 means r0, 1 means rs
 			MUXImm,
-			MUXLookup;
+			MUXLookup,
+			MUXParamR1;
 wire[4:0]   LUTIndex;
 wire[9:0]   LUTOut;
 
@@ -60,7 +61,8 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.MemToReg    (MemToReg),
 		.MUXWrite    (MUXWrite), // 0 means r0, 1 means rs
 		.MUXImm      (MUXImm),
-		.MUXLookup   (MUXLookup)
+		.MUXLookup   (MUXLookup),
+		.MUXParamR1  (MUXParamR1)
 	);
   
 /*	// instruction ROM   (TODO: commented out for unit testing)
@@ -84,11 +86,13 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.Waddr     (WriteReg), 	       // mux above
 		.DataIn    (RegWriteValue) , 
 		.DataOutA  (ReadA        ) , 
-		.DataOutB  (ReadB		 )
+		.DataOutB  (ReadB		 ),
+		.ParamR1   (ParamR1)
 	);
 
-	assign InA = ReadA;						          // connect RF out to ALU in
-	assign InB = MUXImm == 0 ? ReadB : {3'b000, Instruction[4:0]};
+	assign InA = ReadA;						          // connect RF out to ALU in 
+	// select among imm, rs, and r1 
+	assign InB = MUXImm == 0 ? (MUXParamR1 == 0 ? ReadB : ParamR1) : {3'b000, Instruction[4:0]};
     ALU ALU1(
 	  .InputA  (InA),
 	  .InputB  (InB), 

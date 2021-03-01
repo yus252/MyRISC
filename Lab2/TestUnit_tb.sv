@@ -46,6 +46,8 @@ initial begin
     $display("%d: %h", j, DUT.RF1.Registers[j]);
 */
   
+  /****** I-type instructions ******/
+  
   // instr: li 1 
   //   out: r0 = 1
   Instruction = 9'b1_000_00001;
@@ -101,6 +103,130 @@ initial begin
 			$display("(ERROR) Instruction %b", Instruction);
 			$stop;
 		end
+		
+  /****** R-type instructions ******/
+  
+  // instr: mv r2  
+  //   out: r2 = r0 = 1
+  Instruction = 9'b0_0000_0010;
+  #10ns if(DUT.RF1.Registers[2] != 8'b1 || DUT.RF1.Registers[0] != 8'b1) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: add r2  
+  //   out: r0 = 1
+  //        r2 = 2
+  Instruction = 9'b0_0010_0010;
+  #10ns if(DUT.RF1.Registers[2] != 8'b10) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: as r2  
+  //   out: r0 = r2 = 2
+  Instruction = 9'b0_0001_0010;
+  #10ns if(DUT.RF1.Registers[0] != 8'b10 || DUT.RF1.Registers[2] != 8'b10) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: sub r2  
+  //   out: r0 = 2
+  //        r2 = 0
+  Instruction = 9'b0_0011_0010;
+  #10ns if(DUT.RF1.Registers[2] != 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+	
+  // instr: blt r2
+  //   out: PC = PC+1 (branch not taken)
+  Instruction = 9'b0_0101_0010;
+  #10ns if(DUT.PgmCtr == 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$display("PC = %d", DUT.PgmCtr);
+			$stop;
+		end
+		
+  // instr: beq r2
+  //   out: PC = PC+1 (branch not taken)
+  Instruction = 9'b0_0110_0010;
+  #10ns if(DUT.PgmCtr == 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$display("PC = %d", DUT.PgmCtr);
+			$stop;
+		end
+		
+  // instr: b r2
+  //   out: PC = 0 (branch taken)
+  Instruction = 9'b0_0100_0010;
+  #10ns if(DUT.PgmCtr != 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$display("PC = %d", DUT.PgmCtr);
+			$stop;
+		end
+		
+  // instr: sll r1  
+  //   out: r0 = 2
+  //        r1 = 4
+  Instruction = 9'b0_1101_0001;
+  #10ns if(DUT.RF1.Registers[1] != 8'b100) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: xor r3
+  //   out: r0 = 2 
+  //        r1 = 4 
+  // 		r3 = 6 
+  Instruction = 9'b0_1001_0011;
+  #10ns if(DUT.RF1.Registers[3] != 8'b110) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: blt r3
+  //   out: PC = 6 (branch taken) 
+  Instruction = 9'b0_0101_0011;
+  #10ns if(DUT.PgmCtr != 8'b110) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$display("PC = %d", DUT.PgmCtr);
+			$stop;
+		end
+  
+  // instr: lut r3
+  //   out: r0 = 8'b1111110
+  Instruction = 9'b0_1100_0011;
+  #10ns if(DUT.RF1.Registers[0] != 8'b1111110) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: xall r0
+  //   out: r0 = 0
+  Instruction = 9'b0_1011_0000;
+  #10ns if(DUT.RF1.Registers[0] != 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
+  // instr: xall r1
+  //   out: r1 = 1
+  Instruction = 9'b0_1011_0001;
+  #10ns if(DUT.RF1.Registers[1] != 8'b1) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+
+  // instr: and r3
+  //   out: r3 = 0
+  Instruction = 9'b0_1010_0011;
+  #10ns if(DUT.RF1.Registers[3] != 8'b0) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+		
   
   #10ns $stop;
   
