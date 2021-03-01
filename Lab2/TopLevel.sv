@@ -41,9 +41,9 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.Reset       (Reset   ), 
 		.Start       (Start   ),  // SystemVerilg shorthand for .halt(halt), 
 		.Clk         (Clk     ),  // (Clk) is required in Verilog, optional in SystemVerilog
-		.BranchAbs   (Instruction[8:4] == 5'b00101) , 
-		.BranchLT	 (Instruction[8:4] == 5'b00110),
-		.BranchEQ 	 (Instruction[8:4] == 5'b00111),  
+		.BranchAbs   (Instruction[8:4] == 5'b00100) , 
+		.BranchLT	 (Instruction[8:4] == 5'b00101),
+		.BranchEQ 	 (Instruction[8:4] == 5'b00110),  
 		.LT	 		 (LT),
 		.EQ	 	     (EQ),
 		.Target      (PCTarg  ),
