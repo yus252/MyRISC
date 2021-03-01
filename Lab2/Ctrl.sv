@@ -74,7 +74,7 @@ module Ctrl (
 		else if(ROP == kSW) begin
 		  Stop = 0;
 	     Lookup = 0;
-		  RegWrite = 1;
+		  RegWrite = 0;
 		  MemWrite = 1;
         MemToReg = 0;
         MUXWrite = 1;

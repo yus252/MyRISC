@@ -19,7 +19,8 @@ wire [ 7:0] InA, InB, 	   // ALU operand inputs
             ALU_out;       // ALU result
 wire [ 7:0] RegWriteValue, // data in to reg file
             MemWriteValue, // data in to data_memory
-	   	    MemReadValue;  // data out from data_memory
+	   	    MemReadValue,  // data out from data_memory
+			MemReadAddr;	// address to read from in memory 
 wire [ 3:0] WriteReg;		// destination register for RegWrite
 wire        Stop,
 	        Lookup,
@@ -109,9 +110,10 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	  .Target(LUTOut)
 	);
 
-    assign MemWriteValue = ReadB;
+    assign MemWriteValue = ALU_out;
+	assign MemReadAddr = (MemToReg == 1 ? ReadA : ReadB); 
 	DataMem DM1(
-		.DataAddress  (ALU_out)    , 
+		.DataAddress  (MemReadAddr)    , 
 		.WriteEn      (MemWrite), 
 		.DataIn       (MemWriteValue), 
 		.DataOut      (MemReadValue)  , 

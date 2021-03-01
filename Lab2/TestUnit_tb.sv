@@ -227,7 +227,29 @@ initial begin
 			$stop;
 		end
 		
+  /** Data Memory tests **/
   
+  // instr: sw r2
+  //   out: mem[61] = 15
+  Instruction = 9'b1_110_01001; 		// lut 9 (r0 = 61)
+  #10ns Instruction = 9'b0_000_00010;	// mv r2 (r2 = 61) 
+  #10ns Instruction = 9'b1_000_01111;	// li 15 (r0 = 15)
+  #10ns Instruction = 9'b0_1000_0010;   // sw r2 (mem[61] = 15) 
+  #10ns if(DUT.DM1.Core[61] != 8'b1111) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+ 
+  // instr: lw r3  
+  //   out: r3 = 15
+  Instruction = 9'b0_0001_0010;			// as r2 (r0 = 61)
+  #10ns Instruction = 9'b0_0111_0011;   // lw r3 (r3 = mem[61] = 15)
+  #10ns if(DUT.RF1.Registers[3] != 8'b1111) begin
+			$display("(ERROR) Instruction %b", Instruction);
+			$stop;
+		end
+
+		
   #10ns $stop;
   
 /*  
