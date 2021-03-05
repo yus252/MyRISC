@@ -1,89 +1,89 @@
-li	   	0				  # r0 = 0
-mv		  r2				# r2 = 0 = count
-mv		  r3				# r3 = 0 = tap_index
-li		  1 				# r0 = 1
-mv		  r4				# r4 = 1 = seed
-mv 		  r5				# r5 = 1 = state
+li     0              # r0 = 0
+mv     r2             # r2 = 0 = count
+mv     r3             # r3 = 0 = tap_index
+li     1              # r0 = 1
+mv     r4             # r4 = 1 = seed
+mv     r5             # r5 = 1 = state
 #### WHILE_COUNT_LOOP #######################################
-luti	  22				# r0 = TODO = branch target INC_COUNT
-mv 		  r6 				# r6 = branch target INC_COUNT
-as	   	r5				# r0 = state 		 
-mv	   	r1				# r1 = state
-lut	   	r3				# r0 = tap
-and	   	r0				# r0 = tap & state
-xall   	r1				# r1 = ^r0
-as	   	r5 				# r0 = state 
-sll    	r1    		# r0 = (state << 1) | ^(tap & state)
-mv     	r5    		# r5 = new state
-luti	  12				# r0 = 64
-add 	  r2				# r0 = 64 + count
-lw		  r1				# r1 = mem[64+count]
-as		  r5				# r0 = state
-xor		  r1				# r1 = state ^ mem[64+count]
-luti	  9				  # r0 = 0x20 (space char)
-beq 	  r6				# INC_COUNT
-luti	  20				# r0 = TODO = branch target INC_SEED
-mv 		  r6 				# r6 = branch target INC_SEED	
-li 		  0				  # r0 = 0
-mv 		  r2				# r2 = count = 0
-luti 	  11				# r0 = 127
-mv 		  r1				# r1 = 127
-as 		  r4				# r0 = r4 = seed
-blt 	  r6				# INC_SEED  
-luti	  21				# r0 = TODO = branch target N_INC_SEED
-mv 		  r6 				# r6 = branch target N_INC_SEED	
-as 		  r3				# r0 = r3 = tap_index 
-addi 	  1				  # r0 = tap_index + 1
-mv 		  r3				# r3 = tap_index + 1
-li 		  1				  # r0 = 1
-mv 		  r4				# r4 = seed = 1
-b 		  r6				# N_INC_SEED
+luti   22             # r0 = TODO = branch target INC_COUNT
+mv     r6             # r6 = branch target INC_COUNT
+as     r5             # r0 = state 		 
+mv     r1             # r1 = state
+lut    r3             # r0 = tap
+and    r0             # r0 = tap & state
+xall   r1             # r1 = ^r0
+as     r5             # r0 = state 
+sll    r1             # r0 = (state << 1) | ^(tap & state)
+mv     r5             # r5 = new state
+luti   12             # r0 = 64
+add    r2             # r0 = 64 + count
+lw     r1             # r1 = mem[64+count]
+as     r5             # r0 = state
+xor    r1             # r1 = state ^ mem[64+count]
+luti   9              # r0 = 0x20 (space char)
+beq    r6             # INC_COUNT
+luti   20             # r0 = TODO = branch target INC_SEED
+mv     r6             # r6 = branch target INC_SEED	
+li     0              # r0 = 0
+mv     r2             # r2 = count = 0
+luti   11             # r0 = 127
+mv     r1             # r1 = 127
+as     r4             # r0 = r4 = seed
+blt    r6             # INC_SEED  
+luti   21             # r0 = TODO = branch target N_INC_SEED
+mv     r6             # r6 = branch target N_INC_SEED	
+as     r3             # r0 = r3 = tap_index 
+addi   1              # r0 = tap_index + 1
+mv     r3             # r3 = tap_index + 1
+li     1              # r0 = 1
+mv     r4             # r4 = seed = 1
+b      r6             # N_INC_SEED
 #### INC_SEED ###############################################
-as 		  r4				# r0 = r4 = seed
-addi 	  1				  # r0 = seed + 1
-mv 		  r4				# r4 = seed + 1
+as     r4             # r0 = r4 = seed
+addi   1              # r0 = seed + 1
+mv     r4             # r4 = seed + 1
 #### N_INC_SEED #############################################
-luti	  23				# r0 = TODO = branch target N_INC_COUNT
-mv 		  r6 				# r6 = branch target N_INC_COUNT	
-as 		  r4				# r0 = r4 = seed
-mv 		  r5				# r5 = state = seed
-b 		  r6 				# N_INC_COUNT
+luti   23             # r0 = TODO = branch target N_INC_COUNT
+mv     r6             # r6 = branch target N_INC_COUNT	
+as     r4             # r0 = r4 = seed
+mv     r5             # r5 = state = seed
+b      r6             # N_INC_COUNT
 #### INC_COUNT ##############################################
-as 		  r2				# r0 = count
-addi 	  1				  # r0 = count + 1
-mv 		  r2				# r2 = count + 1
+as     r2             # r0 = count
+addi   1              # r0 = count + 1
+mv     r2             # r2 = count + 1
 #### N_INC_COUNT ############################################
-luti	  19				# r0 = TODO = branch target WHILE_COUNT_LOOP
-mv 		  r6 				# r6 = branch target WHILE_COUNT_LOOP
-li 		  10				# r0 = 10	
-mv 		  r1				# r1 = 10
-as 		  r2				# r0 = r2 = count
-blt		  r6 				# WHILE_COUNT_LOOP 
-luti	  24				# r0 = TODO = branch target FOR_COUNT_LOOP
-mv 		  r6 				# r6 = branch target FOR_COUNT_LOOP
-as 		  r4				# r0 = r4 = seed
-mv 		  r5				# r5 = state = seed
-li 		  0				  # r0 = 0
-mv 		  r2				# r2 = count = 0
+luti   19             # r0 = TODO = branch target WHILE_COUNT_LOOP
+mv     r6             # r6 = branch target WHILE_COUNT_LOOP
+li     10             # r0 = 10	
+mv     r1             # r1 = 10
+as     r2             # r0 = r2 = count
+blt    r6             # WHILE_COUNT_LOOP 
+luti   24             # r0 = TODO = branch target FOR_COUNT_LOOP
+mv     r6             # r6 = branch target FOR_COUNT_LOOP
+as     r4             # r0 = r4 = seed
+mv     r5             # r5 = state = seed
+li     0              # r0 = 0
+mv     r2             # r2 = count = 0
 #### FOR_COUNT_LOOP #########################################
-as	   	r5				# r0 = state 
-mv	   	r1				# r1 = state
-lut	   	r3				# r0 = tap
-and	   	r0				# r0 = tap & state
-xall   	r1				# r1 = ^r0
-as	   	r5 				# r0 = state 
-sll    	r1    		# r0 = (state << 1) | ^(tap & state)
-mv     	r5    		# r5 = new state
-luti 	  12				# r0 = 64
-add 	  r2				# r0 = 64 + count
-lw 		  r1				# r1 = mem[64+count]
-as 		  r5				# r0 = state
-xor 	  r0				# r0 = state ^ mem[64+count]
-sw 		  r2				# mem[count] = r0
-luti 	  12				# r0 = 64
-mv 		  r1				# r1 = 64
-as 		  r2				# r0 = count 
-addi 	  1				  # r0 = count + 1
-mv 		  r2				# r2 = count + 1
-blt 	  r6				# FOR_COUNT_LOOP 
+as     r5             # r0 = state 
+mv     r1             # r1 = state
+lut    r3             # r0 = tap
+and    r0             # r0 = tap & state
+xall   r1             # r1 = ^r0
+as     r5             # r0 = state 
+sll    r1             # r0 = (state << 1) | ^(tap & state)
+mv     r5             # r5 = new state
+luti   12             # r0 = 64
+add    r2             # r0 = 64 + count
+lw     r1             # r1 = mem[64+count]
+as     r5             # r0 = state
+xor    r0             # r0 = state ^ mem[64+count]
+sw     r2             # mem[count] = r0
+luti   12             # r0 = 64
+mv     r1             # r1 = 64
+as     r2             # r0 = count 
+addi   1              # r0 = count + 1
+mv     r2             # r2 = count + 1
+blt    r6             # FOR_COUNT_LOOP 
 # TODO: finished ... ACK?  
