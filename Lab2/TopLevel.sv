@@ -6,14 +6,14 @@
 module TopLevel(		   // you will have the same 3 ports
     input        Reset,	   // init/reset, active high
 			     Start,    // start next program
-	             Clk,	   // clock -- posedge used inside design
-	input [8:0]  Instruction, // TODO: used for unit testing
+	             Clk	   // clock -- posedge used inside design
+	//input [8:0]  Instruction, // TODO: use for unit testing
     output logic Ack	   // done flag from DUT
     );
 
 wire [ 9:0] PgmCtr,        // program counter
 			PCTarg;
-//wire [ 8:0] Instruction;   // our 9-bit opcode (TODO: commented out for unit testing)
+wire [ 8:0] Instruction;   // our 9-bit opcode (TODO: comment out for unit testing)
 wire [ 7:0] ReadA, ReadB, ParamR1;  // reg_file outputs
 wire [ 7:0] InA, InB, 	   // ALU operand inputs
             ALU_out;       // ALU result
@@ -66,12 +66,12 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 		.MUXParamR1  (MUXParamR1)
 	);
   
-/*	// instruction ROM   (TODO: commented out for unit testing)
+	// instruction ROM (TODO: comment out for unit testing)  
 	InstROM #(.W(9)) IR1(
 		.InstAddress   (PgmCtr), 
 		.InstOut       (Instruction)
 	);
-*/
+
 	assign Ack = &Instruction;
   
 	// reg file
