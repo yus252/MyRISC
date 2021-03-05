@@ -101,6 +101,18 @@ module Ctrl (
 		  MUXImm = 0;
 		  MUXLookup = 0;
 		end
+		// default (error) case to resolve Quartus warning: inferred latch 
+		else begin 
+		  Stop = 1;
+	      Lookup = 0;
+		  RegWrite = 0;
+		  MemWrite = 0;
+          MemToReg = 0;
+          MUXWrite = 0;
+		  MUXImm = 0;
+		  MUXLookup = 0;
+		  MUXParamR1 = 0;
+		end
     end
 	 else begin
 	   if(IOP == kLI) begin
@@ -133,6 +145,18 @@ module Ctrl (
         MUXWrite = 0;
 		  MUXImm = 1;
 		  MUXLookup = 1;
+		end
+		// default (error) case to resolve Quartus warning: inferred latch
+		else begin 
+		  Stop = 1;
+	      Lookup = 0;
+		  RegWrite = 0;
+		  MemWrite = 0;
+          MemToReg = 0;
+          MUXWrite = 0;
+		  MUXImm = 0;
+		  MUXLookup = 0;
+		  MUXParamR1 = 0;
 		end
 	 end
   end

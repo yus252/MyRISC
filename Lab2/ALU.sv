@@ -31,8 +31,8 @@ module ALU(
         kADD: Out = InputA + InputB; 
 		  kSUB: Out = InputA - InputB; 
 		  kB: Out = 0; // Don't care
-		  kBLT: LT = InputA < InputB ? 1: 0; // set flag
-		  kBEQ: EQ = InputA == InputB ? 1 : 0; // set flag
+		  kBLT: LT = InputA < InputB ? 1'b1: 1'b0; // set flag
+		  kBEQ: EQ = InputA == InputB ? 1'b1 : 1'b0; // set flag
 		  kLW: Out = InputA;
 		  kSW: Out = InputA;
 		  kXOR: Out = InputA ^ InputB;
@@ -40,7 +40,7 @@ module ALU(
 		  kXALL: Out = ^InputB;
 		  kLUT: Out = InputB;
         kSLL: Out = (InputA << 1) | InputB; // InputB always 1'b 
-		  kSTOP: Out = 0; // Don't care 
+		  kSTOP: Out = 8'b0; // Don't care 
       endcase
 	 end
 	 else begin
@@ -49,11 +49,11 @@ module ALU(
 		  kGBI: Out = {7'b0000000, InputA[InputB]};
 		  kSB0: begin
 			 Out = InputA;
-			 Out[InputB] = 0;
+			 Out[InputB] = 1'b0;
 		  end
 		  kSB1: begin
 			 Out = InputA;
-			 Out[InputB] = 1;
+			 Out[InputB] = 1'b1;
 		  end
 		  kSUBI: Out = InputA - InputB;
 		  kLUTI: Out = InputB;

@@ -27,7 +27,7 @@ module InstFetch(
 	else if(BranchAbs || (BranchLT && LT) || (BranchEQ & EQ))	                // unconditional absolute jump
 	  ProgCtr <= Target;	 
 	else
-	  ProgCtr <= ProgCtr+'b1; 	        // default increment (no need for ARM/MIPS +4 -- why?)
+	  ProgCtr <= ProgCtr+10'b1; 	        // default increment (no need for ARM/MIPS +4 -- why?)
 
 endmodule
 

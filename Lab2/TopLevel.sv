@@ -6,7 +6,7 @@
 module TopLevel(		   // you will have the same 3 ports
     input        Reset,	   // init/reset, active high
 			     Start,    // start next program
-	             Clk	   // clock -- posedge used inside design
+	             Clk,	   // clock -- posedge used inside design
 	//input [8:0]  Instruction, // TODO: use for unit testing
     output logic Ack	   // done flag from DUT
     );
@@ -30,7 +30,9 @@ wire        Stop,
             MUXWrite, // 0 means r0, 1 means rs
 			MUXImm,
 			MUXLookup,
-			MUXParamR1;
+			MUXParamR1,
+			LT,
+			EQ;
 wire[4:0]   LUTIndex;
 wire[9:0]   LUTOut;
 
