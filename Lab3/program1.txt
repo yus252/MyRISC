@@ -40,7 +40,7 @@ as     r2    # r0 = count
 blt    r7    #################### go to line 13, loop starts
 luti   13    # branch targets
 mv     r6
-luit   14
+luti   14
 mv     r7   
 luti   11    # r0 = 64
 mv     r5    # r5 = i = 64
@@ -113,19 +113,18 @@ gbi    6
 xor    r1
 luti   17
 mv     r9
-li     0     # r0 = 0
-bnq    r9    # go to setbit1
+li     1     # r0 = 1
+beq    r9    # go to setbit1
 as     r8
 sb0    7   
 mv     r8    # r8[7] = 0
 luti   10
+subi   0
 mv     r10   # r0 = 128
 b      r10
-
 as     r8
 sb1    7
 mv     r8    # r8[7] = 1 
-
 luti   10
 mv     r1
 as     r5
