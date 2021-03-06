@@ -4,8 +4,7 @@ mv     r3             # r3 = 0 = tap_index
 li     1              # r0 = 1
 mv     r4             # r4 = 1 = seed
 mv     r5             # r5 = 1 = state
-#### WHILE_COUNT_LOOP #######################################
-luti   22             # r0 = TODO = branch target INC_COUNT
+luti   22             # r0 = TODO = branch target INC_COUNT         #### WHILE_COUNT_LOOP ####
 mv     r6             # r6 = branch target INC_COUNT
 as     r5             # r0 = state 		 
 mv     r1             # r1 = state
@@ -38,22 +37,18 @@ mv     r3             # r3 = tap_index + 1
 li     1              # r0 = 1
 mv     r4             # r4 = seed = 1
 b      r6             # N_INC_SEED
-#### INC_SEED ###############################################
-as     r4             # r0 = r4 = seed
+as     r4             # r0 = r4 = seed                              #### INC_SEED ####
 addi   1              # r0 = seed + 1
 mv     r4             # r4 = seed + 1
-#### N_INC_SEED #############################################
-luti   23             # r0 = TODO = branch target N_INC_COUNT
+luti   23             # r0 = TODO = branch target N_INC_COUNT       #### N_INC_SEED ####
 mv     r6             # r6 = branch target N_INC_COUNT	
 as     r4             # r0 = r4 = seed
 mv     r5             # r5 = state = seed
 b      r6             # N_INC_COUNT
-#### INC_COUNT ##############################################
-as     r2             # r0 = count
+as     r2             # r0 = count                                  #### INC_COUNT ####
 addi   1              # r0 = count + 1
 mv     r2             # r2 = count + 1
-#### N_INC_COUNT ############################################
-luti   19             # r0 = TODO = branch target WHILE_COUNT_LOOP
+luti   19             # r0 = TODO = branch target WHILE_COUNT_LOOP  #### N_INC_COUNT ####
 mv     r6             # r6 = branch target WHILE_COUNT_LOOP
 li     10             # r0 = 10	
 mv     r1             # r1 = 10
@@ -65,8 +60,7 @@ as     r4             # r0 = r4 = seed
 mv     r5             # r5 = state = seed
 li     0              # r0 = 0
 mv     r2             # r2 = count = 0
-#### FOR_COUNT_LOOP #########################################
-as     r5             # r0 = state 
+as     r5             # r0 = state                                  #### FOR_COUNT_LOOP ####
 mv     r1             # r1 = state
 lut    r3             # r0 = tap
 and    r0             # r0 = tap & state
@@ -85,5 +79,4 @@ mv     r1             # r1 = 64
 as     r2             # r0 = count 
 addi   1              # r0 = count + 1
 mv     r2             # r2 = count + 1
-blt    r6             # FOR_COUNT_LOOP 
-# TODO: finished ... ACK?  
+blt    r6             # FOR_COUNT_LOOP                              # TODO: finished ... ACK?  
