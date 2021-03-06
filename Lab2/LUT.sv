@@ -10,6 +10,7 @@ module LUT(
 
 always_comb 
   case(Addr)		   //-16'd30;
+	// tap patterns 
 	5'b00000: Target = 10'b0001100000; // [6,5] => 1100000
 	5'b00001: Target = 10'b0001001000; // [6,3] => 1001000
 	5'b00010: Target = 10'b0001111000; // [6,5,4,3] => 1111000
@@ -19,17 +20,27 @@ always_comb
 	5'b00110: Target = 10'b0001011100; // [6,4,3,2] => 1011100
 	5'b00111: Target = 10'b0001111110; // [6,5,4,3,2,1] => 1111110
 	5'b01000: Target = 10'b0001111011; // [6,5,4,3,1,0] => 1111011
+	// constants 
 	5'b01001: Target = 10'b0000100000; // 0x20 (space char)
 	5'b01010: Target = 10'b0000111101; // 61
 	5'b01011: Target = 10'b0010000000; // 128
 	5'b01100: Target = 10'b0001000000; // 64
-    5'b01101: Target = 10'b0000101001; // 41
+    // branch targets (program1) 
+	5'b01101: Target = 10'b0000101001; // 41
     5'b01110: Target = 10'b0001010001; // 81
     5'b01111: Target = 10'b0000110101; // 51
     5'b10000: Target = 10'b0010000111; // 135
     5'b10001: Target = 10'b0001011011; // 91
     5'b10010: Target = 10'b0001111101; // 125
-	// Need to add branch address
+	// branch targets (program2) 
+	5'b10011: Target = 10'b0010001101; // 141
+	5'b10100: Target = 10'b0010101110; // 174
+	5'b10101: Target = 10'b0010110001; // 177
+	5'b10110: Target = 10'b0010110110; // 182
+	5'b10111: Target = 10'b0010111001; // 185
+	5'b11000: Target = 10'b0011000101; // 197
+	// TODO: branch targets (program3)
+	
 	default: Target = 10'h001; 
   endcase
 
