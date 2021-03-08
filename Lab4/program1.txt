@@ -1,0 +1,133 @@
+luti   10    # r0 = 61
+lw     r2    # r2 = mem[61] = count
+addi   1     # r0 = 62
+lw     r3    # r3 = mem[62] = tap
+addi   1     # r0 = 63
+lw     r4    # r4 = mem[63] = stat
+li     0     ##################### r0
+mv     r5    # r5 = index = 0
+luti   12    # r0 = 12
+mv     r6    # r6 = 41
+li     17    # r0 = 17
+mv     r7    # r7 = 17
+as     r2    # r0 = count
+mv     r1    # r1 = count
+as     r5    # r0 = index
+beq    r6    #################### exit loop
+lut    r3    # r0 = tap pattern
+mv     r1    # r1 = tap pattern
+as     r4    # r0 = state
+and    r0    # r0 = tap & state
+xall   r1    # r1 = ^r0
+as     r4    # r0 = state
+sll    r1    # r0 = (state << 1) | ^(tap & state)
+mv     r4    # r4 = new state
+li     20    # r0 = 20
+mv     r1    # r1 = 20 
+as     r4    # r0 = state
+xor    r8    # r8 = state ^ 20
+as     r5    # r0 = i
+mv     r1    # r1 = i 
+luti   11    # r0 = 64
+add    r1    # r1 = i + 64
+as     r8    # r8 = state ^ 20
+sw     r1    # mem[r1] = r0
+as     r5    # r0 = i
+addi   1     # r0 ++ 
+mv     r5    # r5 = i++
+mv     r1    # r1 = i++
+as     r2    # r0 = count
+blt    r7    #################### go to line 13, loop starts
+luti   13    # branch targets
+mv     r6
+luti   14
+mv     r7   
+luti   11    # r0 = 64
+mv     r5    # r5 = i = 64
+as     r2    # r0 = count
+add    r5    # r5 = 64 + count
+as     r5    # r0 = r5
+mv     r1    # r1 = r5
+luti   10    # r0 = 128
+beq    r6    ################### exit loop
+lut    r3    # r0 = tap pattern
+mv     r1    # r1 = tap pattern
+as     r4    # r0 = state
+and    r0    # r0 = tap & state
+xall   r1    # r1 = ^r0
+as     r4    # r0 = state
+sll    r1    # r0 = (state << 1) | ^(tap & state)
+mv     r4    # r4 = new state
+as     r5    # r0 = i
+mv     r8    # r8 = i
+luti   11    # r0 = 64
+sub    r8    # r8 = i - 64
+as     r2    # r0 = count
+sub    r8    # r8 = r8 - r0 = i - 64 - count
+as     r0    # r0 = r8
+lw     r8    # r8 = mem[i-64-count]
+as     r8    # r0 = r8
+mv     r1    # r1 = mem[i-64-count]
+as     r4    # r0 = state
+xor    r9    # r9 = state ^ mem[i-64-count]
+as     r0
+sw     r5    # mem[r5] = r0 => mem[i] = state ^ mem[i-64-count]
+luti   10    # r0 = 128
+mv     r1   
+as     r5    # r0 = i
+addi   1     # r0++
+mv     r5    # r5 = i++
+blt    r7    ########################### go to line 53, else step 5 finishes
+luti   15
+mv     r6
+luti   16
+mv     r7
+luti   11    # r0 = 64
+mv     r5    # r5 = i = 64
+luti   10    # r0 = 128
+mv     r1
+as     r5
+beq    r6    ####################### exit loop
+as     r5    # r0 = i
+lw     r0    # r0 = mem[i]
+mv     r8    # r8 = mem[i]
+gbi    0     
+mv     r1   
+as     r8
+gbi    1
+xor    r1
+as     r8
+gbi    2
+xor    r1
+as     r8
+gbi    3
+xor    r1
+as     r8
+gbi    4
+xor    r1
+as     r8
+gbi    5
+xor    r1
+as     r8
+gbi    6
+xor    r1
+luti   17
+mv     r9
+li     1     # r0 = 1
+beq    r9    # go to setbit1
+as     r8
+sb0    7   
+mv     r8    # r8[7] = 0
+luti   10
+subi   0
+mv     r10   # r0 = 128
+b      r10
+as     r8
+sb1    7
+mv     r8    # r8[7] = 1 
+luti   10
+mv     r1
+as     r5
+addi   1
+mv     r5
+blt    r7
