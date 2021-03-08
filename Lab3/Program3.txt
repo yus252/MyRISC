@@ -1,0 +1,53 @@
+errorDtr:
+	li	0   # r0 = 0
+	mv	r2  # r2 = i = 0
+	mv   	r3  # r3 = j = 0
+	li	64  # r0 = 64
+	lw	r4  # r4 = k = 64
+	li    	20  # r0 = 20
+	lw    	r5  # r5 = 20		//223
+while_loop:
+	as	r5  # r0 = r5 = mem[i]
+	mv	r1  # r1 = r0 = mem[i]
+	li	20  # r0 = 20
+	luti    26  # //230
+	beq     r0  # branch to for_loop  //227
+	mv	r2  # r2 = r0 = i++
+	luti    25  # //224
+	b	r0  # branch to while_loop //224
+for_loop:
+	as	r2  # r0 = r2       //230
+	mv	r1  # r1 = r0 = i
+	lut	0   # r0 = 61
+	addi	-9  # r0 = 52
+	gbi     0   # r0 = getbit(r0, 0)
+     	as      r1  # r1 = 0
+      	gbi     1   # r0 = getbit(r0, 1)
+      	xor     r1  # getBit(j,0)^getBit(j,1)
+      	gbi     2   # r0 = getbit(r0, 2)
+      	xor     r1  # getBit(j,0)^getBit(j,1)^getBit(j,2)^getBit(j,2)
+      	gbi     3   # r0 = getbit(r0, 3)
+      	xor     r1  # getBit(j,0)^getBit(j,1)^getBit(j,2)^getBit(j,3)                 
+     	gbi     4   # r0 = getbit(r0, 4)
+     	xor     r1  # getBit(j,0)^getBit(j,1)^getBit(j,2)^
+                    # getBit(j,3)^getBit(j,4)
+      	gbi     5   # r0 = getbit(r0, 5)
+      	xor     r1  # getBit(j,0)^getBit(j,1)^getBit(j,2)^
+                    # getBit(j,3)^getBit(j,4)^getBit(j,5)         
+      	gbi     6   # r0 = getbit(r0, 6)
+      	xor     r1  # getBit(j,0)^getBit(j,1)^getBit(j,2)^getBit(j,3)^
+                    # getBit(j,4)^getBit(j,5)^getBit(j,6)
+      	gbi     7   # r0  = getbit(r0, 7)
+      	as      r2  # r2 = getbit(r0, 7)
+      	luti    12  # 64
+      	addi    16  # r0 = 80 
+	sw      r4  # mem[k] = 0x80
+
+        luti    26  # //230
+	beq	r0  # branch to for_loop
+        as	r2  # r0 = r2
+ 	lw      r5  # mem[j] 
+ 	sw      r4  # mem[k] = mem[j]
+        as      r4  # r4 = k
+        addi    1   # r0 += 1  
+        mv      r4  # r4 k++
