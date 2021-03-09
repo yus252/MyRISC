@@ -4,7 +4,7 @@ mv     r3             # r3 = 0 = tap_index
 li     1              # r0 = 1
 mv     r4             # r4 = 1 = seed
 mv     r5             # r5 = 1 = state
-luti   22             # r0 = TODO = branch target INC_COUNT         #### WHILE_COUNT_LOOP ####
+luti   22             # r0 = branch target INC_COUNT         #### WHILE_COUNT_LOOP ####
 mv     r6             # r6 = branch target INC_COUNT
 as     r5             # r0 = state 		 
 mv     r1             # r1 = state
@@ -21,7 +21,7 @@ as     r5             # r0 = state
 xor    r1             # r1 = state ^ mem[64+count]
 luti   9              # r0 = 0x20 (space char)
 beq    r6             # INC_COUNT
-luti   20             # r0 = TODO = branch target INC_SEED
+luti   20             # r0 = branch target INC_SEED
 mv     r6             # r6 = branch target INC_SEED	
 li     0              # r0 = 0
 mv     r2             # r2 = count = 0
@@ -29,7 +29,7 @@ luti   11             # r0 = 127
 mv     r1             # r1 = 127
 as     r4             # r0 = r4 = seed
 blt    r6             # INC_SEED  
-luti   21             # r0 = TODO = branch target N_INC_SEED
+luti   21             # r0 = branch target N_INC_SEED
 mv     r6             # r6 = branch target N_INC_SEED	
 as     r3             # r0 = r3 = tap_index 
 addi   1              # r0 = tap_index + 1
@@ -40,7 +40,7 @@ b      r6             # N_INC_SEED
 as     r4             # r0 = r4 = seed                              #### INC_SEED ####
 addi   1              # r0 = seed + 1
 mv     r4             # r4 = seed + 1
-luti   23             # r0 = TODO = branch target N_INC_COUNT       #### N_INC_SEED ####
+luti   23             # r0 = branch target N_INC_COUNT       #### N_INC_SEED ####
 mv     r6             # r6 = branch target N_INC_COUNT	
 as     r4             # r0 = r4 = seed
 mv     r5             # r5 = state = seed
@@ -48,13 +48,13 @@ b      r6             # N_INC_COUNT
 as     r2             # r0 = count                                  #### INC_COUNT ####
 addi   1              # r0 = count + 1
 mv     r2             # r2 = count + 1
-luti   19             # r0 = TODO = branch target WHILE_COUNT_LOOP  #### N_INC_COUNT ####
+luti   19             # r0 = branch target WHILE_COUNT_LOOP  #### N_INC_COUNT ####
 mv     r6             # r6 = branch target WHILE_COUNT_LOOP
 li     10             # r0 = 10	
 mv     r1             # r1 = 10
 as     r2             # r0 = r2 = count
 blt    r6             # WHILE_COUNT_LOOP 
-luti   24             # r0 = TODO = branch target FOR_COUNT_LOOP
+luti   24             # r0 = branch target FOR_COUNT_LOOP
 mv     r6             # r6 = branch target FOR_COUNT_LOOP
 as     r4             # r0 = r4 = seed
 mv     r5             # r5 = state = seed

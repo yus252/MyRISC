@@ -122,7 +122,7 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 	);
 	
 
-	assign Ack = Instruction[8:4] == 5'b11111 ? 1 : 0;
+	assign Ack = &Instruction;
 
 	// count number of instructions executed
 	always_ff @(posedge Clk) begin
