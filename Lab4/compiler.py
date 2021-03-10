@@ -1,5 +1,5 @@
-r_file = open("program1.txt", "r") 
-w_file = open("machine1.txt", "w")
+r_file = open("program2.txt", "r") 
+w_file = open("machine2.txt", "w")
 
 def dec_to_bin(n, opcode):
     n = int(n)
@@ -28,6 +28,8 @@ for line in r_file:
     opcode = '1' if len(operation[instruction]) == 3 else '0'
     val = l[1][1:] if (l[1][0] == 'r') else l[1]
     w_file.write(opcode + operation[instruction] + dec_to_bin(val, opcode) + '\n')
+
+w_file.write("111111111") # always end with Ack instruction
 
 r_file.close()
 w_file.close()
