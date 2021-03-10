@@ -1,5 +1,5 @@
-r_file = open("program1.txt", "r") 
-w_file = open("machine1.txt", "w")
+r_file = open("program2.txt", "r") 
+w_file = open("machine2.txt", "w")
 
 def dec_to_bin(n, opcode):
     n = int(n)
