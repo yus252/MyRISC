@@ -43,7 +43,7 @@ module decrypt_tb ()        ;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
   always_comb begin
-    pt_no = 0;//$random>>22;                   // or pick a specific one
+    pt_no = $random>>22;                   // or pick a specific one
     if(pt_no>8) pt_no = pt_no[2:0];	       // restrict to 0 through 8 (our legal patterns)
     $display("pt_no = %d",pt_no);
   end    
@@ -51,7 +51,7 @@ module decrypt_tb ()        ;
 
 // now select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = 7'b1;//$random>>2;                // or set a value, such as 7'b1, for debug
+    LFSR_init = $random>>2;                // or set a value, such as 7'b1, for debug
     if(!LFSR_init) LFSR_init = 7'b1;       // prevents illegal starting state = 7'b0; 
   end
 

@@ -7,14 +7,16 @@ char * decryptor(char * mem){
     // 127 possible initial seeds, 9 tap patterns (0x00..0x08)
     // mem[64]..mem[73] = 0x20 
 
-    unsigned char tap = 0x00;  // default tap sequence
-    unsigned char seed = 0x01; // default starting state
+	int[9] LUT = {[6,5],[6,4,3]....}; // LUT of tap sequences 
+	
+    unsigned char tap_index = 0x00;  // default tap index
+	unsigned char seed = 0x01; // default starting state
     unsigned char state = seed;   
 
     int count = 0;
     // find a seed that decrypts 10 space chars 
     while(count < 10){
-        
+        tap = LUT[tap_index];
         next_state = (state << 1) | ^(tap & state);
 		
 		// advance if a space char was decrypted
@@ -25,14 +27,15 @@ char * decryptor(char * mem){
         // otherwise, start over with a new seed
         else{
             count = 0;
-            // if we have checked every seed for this tap, 
-            // try the next tap pattern 
-            if(seed == 127){
+            // try the next seed  
+            if(seed < 127){
+                seed++;
+            }
+			// if we have tried every seed for this tap, 
+            // try the next tap pattern
+            else{
                 tap++;
                 seed = 0x01;
-            }
-            else{
-                seed++;
             }
             state = seed;
         }
