@@ -34,11 +34,11 @@ always_comb
     5'b10010: Target = 10'b0001111101; // 125
 	// branch targets (program2) 
 	5'b10011: Target = 10'b0000000110; // 6
-	5'b10100: Target = 10'b0000100111; // 39
-	5'b10101: Target = 10'b0000101010; // 42
-	5'b10110: Target = 10'b0000101111; // 47
-	5'b10111: Target = 10'b0000110010; // 50
-	5'b11000: Target = 10'b0000111110; // 62
+	5'b10100: Target = 10'b0000101100; // 44
+	5'b10101: Target = 10'b0000101111; // 47
+	5'b10110: Target = 10'b0000110100; // 52
+	5'b10111: Target = 10'b0000110111; // 55
+	5'b11000: Target = 10'b0001000011; // 67
 	// TODO: branch targets (program3)
 	
 	default: Target = 10'h001; 

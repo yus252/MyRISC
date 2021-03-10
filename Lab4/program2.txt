@@ -10,12 +10,17 @@ as     r5             # r0 = state
 mv     r1             # r1 = state
 lut    r3             # r0 = tap
 and    r0             # r0 = tap & state
-xall   r1             # r1 = ^r0
+xall   r0             # r0 = ^(tap & state)
+mv     r1             # r1 = ^(tap & state)
 as     r5             # r0 = state 
-sll    r1             # r0 = (state << 1) | ^(tap & state)
+sll    r1             # r1 = (state << 1) | ^(tap & state) = new state 
+as     r1             # r0 = new state
 mv     r5             # r5 = new state
 luti   12             # r0 = 64
-add    r2             # r0 = 64 + count
+mv     r1             # r1 = 64
+as     r2             # r0 = count 
+add    r1             # r1 = 64 + count               
+as     r1             # r0 = 64 + count
 lw     r1             # r1 = mem[64+count]
 as     r5             # r0 = state
 xor    r1             # r1 = state ^ mem[64+count]
@@ -64,12 +69,17 @@ as     r5             # r0 = state                                  #### FOR_COU
 mv     r1             # r1 = state
 lut    r3             # r0 = tap
 and    r0             # r0 = tap & state
-xall   r1             # r1 = ^r0
+xall   r0             # r0 = ^(tap & state)
+mv     r1             # r1 = ^(tap & state)
 as     r5             # r0 = state 
-sll    r1             # r0 = (state << 1) | ^(tap & state)
+sll    r1             # r1 = (state << 1) | ^(tap & state) = new state
+as     r0             # r0 = new state 
 mv     r5             # r5 = new state
 luti   12             # r0 = 64
-add    r2             # r0 = 64 + count
+mv     r1             # r1 = 64
+as     r2             # r0 = count 
+add    r1             # r1 = 64 = count 
+as     r1             # r0 = 64 + count
 lw     r1             # r1 = mem[64+count]
 as     r5             # r0 = state
 xor    r0             # r0 = state ^ mem[64+count]
@@ -79,4 +89,4 @@ mv     r1             # r1 = 64
 as     r2             # r0 = count 
 addi   1              # r0 = count + 1
 mv     r2             # r2 = count + 1
-blt    r6             # FOR_COUNT_LOOP                              # TODO: finished ... ACK?  
+blt    r6             # FOR_COUNT_LOOP                                

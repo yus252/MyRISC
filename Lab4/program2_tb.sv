@@ -43,7 +43,7 @@ module decrypt_tb ()        ;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
   always_comb begin
-    pt_no = $random>>22;                   // or pick a specific one
+    pt_no = 0;//$random>>22;                   // or pick a specific one
     if(pt_no>8) pt_no = pt_no[2:0];	       // restrict to 0 through 8 (our legal patterns)
     $display("pt_no = %d",pt_no);
   end    
@@ -51,7 +51,7 @@ module decrypt_tb ()        ;
 
 // now select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = $random>>2;                // or set a value, such as 7'b1, for debug
+    LFSR_init = 7'b1;//$random>>2;                // or set a value, such as 7'b1, for debug
     if(!LFSR_init) LFSR_init = 7'b1;       // prevents illegal starting state = 7'b0; 
   end
 
@@ -116,10 +116,10 @@ module decrypt_tb ()        ;
 //    dut.DM1.Core[61] = pre_length;     // number of bytes preceding message
 //    dut.DM1.Core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
 //    dut.DM1.Core[63] = LFSR_init;      // LFSR starting state (nonzero)
-    for(int n=0; n<64; n++) 			// load encrypted message into data memory
+    #10ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
+	for(int n=0; n<64; n++) 			// load encrypted message into data memory
 	  dut.DM1.Core[n+64] = msg_crypto1[n];
-    #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
-	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
+	#20ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
     #60ns;                            // wait for 6 clock cycles of nominal 10ns each
     wait(done);                       // wait for DUT's ack/done flag to go high
     #10ns $fdisplay(file_no,"");
