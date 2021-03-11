@@ -23,7 +23,8 @@ module encrypt_tb ()        ;
 // note in practice your design should be able to handle ANY ASCII string that is
 //  restricted to characters between space (0x20) and script f (0x9f) and shorter than 
 //  54 characters in length
-  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+//  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+  string     str1  = "           Mr. Watson, come here. I want to see you.";  
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // alternative inputs
 //  string     str1  = "  01234546789abcdefghijklmnopqrstuvwxyz. ";   //   (make up your own,
 //  string     str1  = "  f       A joke is a very serious thing.";   // 	as well)
@@ -46,7 +47,7 @@ module encrypt_tb ()        ;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
   always_comb begin
-    pt_no = $random;
+    pt_no = 0; // $random;
     if(pt_no==8) pt_no1 = pt_no[3:0];
     else         pt_no1 = pt_no[2:0];  // restrict to 0 through 8 (our legal patterns)
     lfsr_ptrn = LFSR_ptrn[pt_no1];  // engage the selected pattern
@@ -59,10 +60,10 @@ module encrypt_tb ()        ;
 
 // set preamble length for the program run (always > 9 but < 26)
   always_comb begin
-    pre_length = $random>>10 ;        // program 1 run
-    pre_length1 = pre_length; 
+	 pre_length = $random>>10 ;        // program 1 run
+	 pre_length1 = pre_length; 
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
-	else if(pre_length > 26) pre_length = 26; 
+	 else if(pre_length > 26) pre_length = 26; 
   end
 
 // ***** instantiate your own top level design here *****
@@ -101,29 +102,31 @@ module encrypt_tb ()        ;
 //  testbench will change on falling clocks to avoid race conditions at rising clocks
     for (int i=0; i<64; i++) begin
       msg_crypto1[i]        = (msg_padded1[i] ^ lfsr1[i]);
-	  msg_crypto1[i][7]     = ^msg_crypto1[i][6:0];       // prepend parity bit into MSB
+	   msg_crypto1[i][7]     = ^msg_crypto1[i][6:0];       // prepend parity bit into MSB
       $fdisplay(file_no,"i=%d, msg_pad=0x%h, lfsr=%b msg_crypt w/ parity = 0x%h",
          i,msg_padded1[i],lfsr1[i],msg_crypto1[i]);
 // for display purposes only, add 8'h20 to avoid nonprintable characters (<8'h20)
       str_enc1[i]           = string'(msg_crypto1[i][6:0]+8'h20);
-    end
+   end
 	$fdisplay(file_no,"encrypted string =  "); 
 	for(int jj=0; jj<64; jj++)
       $fwrite(file_no,"%s",str_enc1[jj]);
     $fdisplay(file_no,"\n");
 
+	 #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
+	 #10ns start = 1'b0; 			  //   request/start = 1 holds your program counter
 // run encryption program
 // ***** load operands into your data memory *****
 // ***** use your instance name for data memory and its internal core *****
     for(int m=0; m<61; m++)
-	  dut.DM1.Core[m] = 8'h20;         // pad memory w/ ASCII space characters
+	   dut.DM1.Core[m] = 8'h20;         // pad memory w/ ASCII space characters
     for(int m=0; m<strlen; m++)
       dut.DM1.Core[m] = str1[m];       // overwrite/copy original string into device's data memory[0:strlen-1]
     dut.DM1.Core[61] = pre_length1;     // number of bytes preceding message
+	 $display("Prelength: %d", dut.DM1.Core[61]);
     dut.DM1.Core[62] = pt_no;//lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
     dut.DM1.Core[63] = LFSR_init;      // LFSR starting state (nonzero)
-    #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
-	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
+	 
     #60ns;                            // wait for 6 clock cycles of nominal 10ns each
     wait(done);                       // wait for DUT's ack/done flag to go high
 //    #2000ns; 
