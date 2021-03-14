@@ -8,7 +8,7 @@ int main(){
       byte try_state = mem[64] ^ 0x20;
       byte tap = TAP[tap_ptrn_index];
 
-      int count = 0;
+      int count= 0;
       while(mem[64+i] == try_state ^ 0x20){
          try_state = lfsr(tap, try_state);
          count+= 1;
@@ -22,16 +22,10 @@ int main(){
 
    byte tap = LUT[best_index];
    byte lfsr_state = mem[64] ^ space;
-
-   int count = 0;
-   while(mem[64+count] == lfsr_state ^ 0x20){
-      lfsr_state = lfsr(taps, lfsr_state);
-      count++;
-   }
    
    // write encoded message
-   for(int i = 0; i < (64 - count); i++){
-      byte encrypted = mem[i + count +64];
+   for(int i = 0; i < (64 - max); i++){
+      byte encrypted = mem[i+max+64];
       
       if(encrypted[7] == ^encrypted[6:0]) mem[i] = lfsr_state ^ encryted;
       else mem[i] = 0x80;
@@ -39,7 +33,7 @@ int main(){
       lfsr_state = lfsr(tap, lfsr_state);
    }
 
-   for(int i = (64 - count); i < 64; i++){
+   for(int i = (64 - max); i < 64; i++){
       mem[i] = 0x20;
    }
 
