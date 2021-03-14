@@ -1,5 +1,4 @@
 int main(){
-   int tap_ptrn_index = 0;
    int best_index = 0;
    int max = 0;
 
