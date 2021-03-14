@@ -8,7 +8,7 @@ int main(){
       byte try_state = mem[64] ^ 0x20;
       byte tap = TAP[tap_ptrn_index];
 
-      int i = 0;
+      int count = 0;
       while(mem[64+i] == try_state ^ 0x20){
          try_state = lfsr(tap, try_state);
          count+= 1;
