@@ -40,6 +40,11 @@ always_comb
 	5'b10111: Target = 10'b0000111110; // 62
 	5'b11000: Target = 10'b0001001010; // 74
 	// TODO: branch targets (program3)
+	5’b11001: Target = 10'b0000100111; // [25] : 39, WHILE_LOOP
+	5’b11010: Target = 10'b0000110110; // [26] : 53, LOOP_CHECKING1
+	5’b11011: Target = 10'b0010000000; // [27] : 0x80
+	5’b11100: Target = 10'b0000111011; // [28] : 115, AFTER_IF
+	5’b11101: Target = 10'b0001001000; // [29] : 72, FOR_LOOP2
 	
 	default: Target = 10'h001; 
   endcase
