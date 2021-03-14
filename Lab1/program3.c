@@ -33,9 +33,9 @@ int main(){
       lfsr_state = lfsr(tap, lfsr_state);
    }
 
-   for(int i = (64 - max); i < 64; i++){
-      mem[i] = 0x20;
-   }
+   // for(int i = (64 - max); i < 64; i++){
+   //    mem[i] = 0x20;
+   // }
 
    return mem;
 }
