@@ -1,0 +1,136 @@
+li      0
+mv      r2  # r2 = best_index = 0
+mv      r3  # r3 = max = 0
+mv      r4  # r4 = tap_pattern_index = 0
+luti    12  ####################### FOR_LOOP1
+lw      r5  # r5 = try_state = mem[64]
+lut     r4
+mv      r6  # r6 = tap
+li      0
+mv      r7  # r7 = count
+luti    25  ####################### WHILE_LOOP_CHECKING
+mv      r10 # r10 = 39
+as      r7
+mv      r8  # r8 = count 
+luti    12
+add     r8  # r8 = count + 64
+lw      r8  # r8 = mem[64 + count]
+as      r5
+mv      r1  # r1 = try_state
+luti    9   # r0 = 0x20
+xor     r1  # r1 = try_state ^ 0x20
+as      r8  # r0 = mem[64 + count]
+beq     r10 # branch to WHILE_LOOP, line 40
+luti    9   ####################### IF_CHECKING
+mv      r10 # r10 = 32
+as      r7  #
+mv      r1  # r1 = count
+as      r3  # r0 = max
+blt     r10 # branch to INSIDE_IF, line 33
+luti    26
+mv      r10 # r10 = 53
+b       r10 # branch to LOOP_CHECKING1, line 54
+as      r7  ####################### INSIDE_IF
+mv      r3  # r3 = max = count
+as      r4
+mv      r2  # r2 = best_index = tap_pattern_index
+luti    26
+mv      r10 # r10 = 53
+b       r10 # branch to LOOP_CHECKING, line 54
+as      r5  ####################### WHILE_LOOP
+mv      r1  # r1 = try_state
+as      r6  # r0 = tap
+and     r9  # r0 = state & tap
+xall    r9  # r9 = ^r9
+as      r5  # r0 = state
+sll     r9  # r9 = (state << 1) | r9
+as      r9
+mv      r5  # r5 = new state
+as      r7  # r0 = count
+addi    1
+mv      r7  # count++
+luti    10
+mv      r10
+b       r10 # branch to WHILE_LOOP_CHECKING
+li      4   ###################### LOOP_CHECKING1
+mv      r10
+li      9 
+mv      r1  # r1 = 9
+as      r4  # r0 = tap_pattern_index
+addi    1
+mv      r4  # tap_patern_index++
+blt     r10 # branch to FOR_LOOP1
+lut     r2  ################################################### 
+mv      r2  # r2 = tap, r3 = max
+luti    9   
+mv      r1  # r1 = 0x20
+luti    12
+lw      r4  # r4 = mem[64]
+as      r4
+xor     r4  # r4 = state
+li      0
+mv      r5  # r5 = i = 0
+as      r5  ###################### FOR_LOOP2
+mv      r6  
+as      r3
+add     r6
+luti    12 
+add     r6  # r6 = i+max+64
+as      r6
+lw      r7  # r7 = mem[i+max+64]
+as      r7
+gbi     0
+mv      r1
+as      r7
+gbi     1
+xor     r1
+as      r7
+gbi     2
+xor     r1
+as      r7
+gbi     3
+xor     r1
+as      r7
+gbi     4
+xor     r1
+as      r7
+gbi     5
+xor     r1
+as      r7
+gbi     6
+xor     r1
+luti    
+mv      r10
+as      r7
+gbi     7
+beq     inside_if
+luti    27
+sw      r5  # mem[i] = 0x80
+luti    28
+mv      r10 # r10 = 115
+b       r10 # branch to AFTER_IF, line 116
+as      r7
+mv      r1
+as      r4
+xor     r0
+sw      r5  # mem[i] = state ^ mem[i+max+64]
+as      r2
+mv      r1  # r1 = tap
+as      r4  # r0 = state
+and     r0  # r0 = tap & state
+xall    r0  # r0 = ^r0
+mv      r8
+as      r4  # r0 = state
+sll     r8  # r8 = (state << 1) | r8
+as      r8
+mv      r4
+luti    29  ################# FOR LOOP CHECKING
+mv      r10 # r10 = 73
+luti    12
+mv      r1  # r1 = 64
+as      r3  # r0 = max
+sub     r1  # r1 = 64 - max
+as      r5  # r0 = i
+addi    1
+mv      r5
+blt     r10 # branch to FOR_LOOP2, line 73
