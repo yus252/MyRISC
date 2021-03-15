@@ -20,7 +20,7 @@ int main(){
    }
 
    byte tap = LUT[best_index];
-   try_state = mem[64] ^ 0x20;
+   byte lfsr_state = mem[64][6:0] ^ 0x20;
    // write encoded message
    for(int i = 0; i < (64 - max); i++){
       byte encrypted = mem[i+max+64];
@@ -30,10 +30,6 @@ int main(){
 
       lfsr_state = lfsr(tap, lfsr_state);
    }
-
-   // for(int i = (64 - max); i < 64; i++){
-   //    mem[i] = 0x20;
-   // }
 
    return mem;
 }
