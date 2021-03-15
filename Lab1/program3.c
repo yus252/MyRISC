@@ -20,7 +20,7 @@ int main(){
    }
 
    byte tap = LUT[best_index];
-   
+   try_state = mem[64] ^ 0x20;
    // write encoded message
    for(int i = 0; i < (64 - max); i++){
       byte encrypted = mem[i+max+64];
