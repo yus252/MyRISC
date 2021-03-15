@@ -36,7 +36,7 @@ Format: instr rs
 | and  | 1010   | rs = r0 & r1     | Assign the value of r0 and r1 into rs     |
 | xall | 1011   | rs = ^r0         | Reduction xor on every bit of rs          |
 | lut  | 1100   | r0 = table[rs]   | Get the value at the index sotred in rs in the lookup table |
-| sll  | 1101   | rs = (r0<<1)|rs  | Shift r0 left by 1 bit, set the last bit of r0 to be rs, and store the result into rs |
+| sll  | 1101   | rs = (r0<<1)\|rs  | Shift r0 left by 1 bit, set the last bit of r0 to be rs, and store the result into rs |
 
 ## I-type Instructions
 | 1 | 3 |      5     |
