@@ -29,7 +29,7 @@ module ALU(
 		  kMV: Out = InputA; 
 		  kAS: Out = InputB; 
         kADD: Out = InputA + InputB; 
-		  kSUB: Out = InputA - InputB; 
+		  kSUB: Out = InputB - InputA; 
 		  kB: Out = 0; // Don't care
 		  kBLT: LT = InputA < InputB ? 1'b1: 1'b0; // set flag
 		  kBEQ: EQ = InputA == InputB ? 1'b1 : 1'b0; // set flag
@@ -55,7 +55,7 @@ module ALU(
 			 Out = InputA;
 			 Out[InputB] = 1'b1;
 		  end
-		  kSUBI: Out = InputA - InputB;
+		  kSUBI: Out = InputB - InputA;
 		  kLUTI: Out = InputB;
 		  kADDI: Out = InputA + InputB;
 		endcase  

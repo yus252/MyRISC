@@ -25,7 +25,7 @@ module DataMem(
   if you do not need to preload your data memory with any constants, you may omit the if(Reset) and the else,
   and go straight to if(WriteEn) ...
 */
-    if(Reset) begin
+   if(Reset) begin
 // you may initialize your memory w/ constants, if you wish
       for(int i=0;i<256;i++) Core[i] <= 0;
 	end
