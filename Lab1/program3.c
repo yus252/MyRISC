@@ -25,7 +25,7 @@ int main(){
    for(int i = 0; i < (64 - max); i++){
       byte encrypted = mem[i+max+64];
       
-      if(encrypted[7] == ^encrypted[6:0]) mem[i] = lfsr_state ^ encryted;
+      if(encrypted[7] == ^encrypted[6:0]) mem[i] = lfsr_state ^ encryted[6:0];
       else mem[i] = 0x80;
 
       lfsr_state = lfsr(tap, lfsr_state);
